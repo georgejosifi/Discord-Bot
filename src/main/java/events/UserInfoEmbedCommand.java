@@ -1,10 +1,11 @@
 package events;
 
 import Dbot.Bot;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.User;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
 
 import javax.xml.crypto.Data;
 import java.awt.*;
@@ -33,14 +34,25 @@ public class UserInfoEmbedCommand extends ListenerAdapter {
         }else if(message.matches(regex)){
 
             String effectiveName = message.substring(message.indexOf(" ") + 1);
-            User user = event.getGuild().getMembersByEffectiveName(effectiveName, true).get(0).getUser();
+            User user;
+            try{
+                 user = event.getGuild().getMembersByEffectiveName(effectiveName, true).get(0).getUser();
+            }catch (Exception e) {
+                Bot.sendWarningToChannel(event.getChannel(),"Ska member me emrin " + effectiveName);
+                return;
+            }
+
+            String elvisId = "696729111950917674";
             //creating Embed
             EmbedBuilder avatarEmbed = new EmbedBuilder();
             avatarEmbed.setTitle(user.getName() + "'s" + " Information");
             avatarEmbed.setColor(Color.CYAN);
             avatarEmbed.addField("Name", user.getName(),true);
             avatarEmbed.addField("Online status", event.getGuild().getMember(user).getOnlineStatus().toString(),true);
-            avatarEmbed.addField("Join Date", event.getGuild().getMember(user).getJoinDate().format(dateTimeFormatter),true);
+            avatarEmbed.addField("Join Date", event.getGuild().getMember(user).getTimeJoined().format(dateTimeFormatter),true);
+            if(user.getId().equals(elvisId)) {
+                avatarEmbed.addField("Type","Android Prototype 2.0(ElvisBot inserted in a human body)",false);
+            }
             avatarEmbed.addField("Permissions", event.getGuild().getMember(user).getPermissions().toString(), true);
             avatarEmbed.addField("Roles",event.getGuild().getMember(user).getRoles().toString(), false);
             avatarEmbed.addField("Avatar" , "" , false);

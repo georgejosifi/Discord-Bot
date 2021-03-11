@@ -1,11 +1,12 @@
 package events;
 
 import Dbot.Bot;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.VoiceChannel;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.VoiceChannel;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
 
 public class KickEventListener extends ListenerAdapter {
 
@@ -25,22 +26,43 @@ public class KickEventListener extends ListenerAdapter {
 
 
         if(message.equals("!kick") && event.getAuthor().getId().equals(masterID)) {
-            event.getChannel().sendMessage("Te lutem shto emrin e tvobekmit qe do besh kick").queue();
+            Bot.sendInstructionToChannel(event.getChannel(),"Te lutem shto emrin e tvobekmit qe do besh kick");
 
 
         }else if(message.matches(regex) && event.getAuthor().getId().equals(masterID)) {
 
              String effectiveName = message.substring(message.indexOf(" ") + 1);
-             Member memberToKick = (Member) event.getGuild().getMembersByEffectiveName(effectiveName,true).get(0);
-             event.getGuild().getController().kick(memberToKick).complete();
+             Member memberToKick;
+             try {
+                  memberToKick = (Member) event.getGuild().getMembersByEffectiveName(effectiveName, true).get(0);
+             }catch(Exception e) {
+                 Bot.sendWarningToChannel(event.getChannel(),"Ska member me emrin " + effectiveName);
+                 return;
+             }
+
+             event.getGuild().kick(memberToKick).complete();
              event.getChannel().sendMessage(effectiveName + " u be kick nga serveri").queue();
 
 
         }else if(message.matches(vRegex) && event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS)) {
             String effectiveName = message.substring(message.indexOf(" ") + 1);
-            Member member = (Member) event.getGuild().getMembersByEffectiveName(effectiveName,true).get(0);
-            VoiceChannel channel = event.getGuild().getVoiceChannelsByName("Afk",true).get(0);
-            event.getGuild().getController().moveVoiceMember(member,channel).complete();
+            Member member;
+            try {
+                member = (Member) event.getGuild().getMembersByEffectiveName(effectiveName,true).get(0);
+            }catch(Exception e) {
+                Bot.sendWarningToChannel(event.getChannel(),"Ska member me emrin " + effectiveName);
+                return;
+            }
+
+            VoiceChannel channel = null;
+            try {
+                 channel = event.getGuild().getVoiceChannelsByName("Afk", true).get(0);
+            }catch(Exception e) {
+                Bot.sendInstructionToChannel(event.getChannel(), "Krijo nje Voice Channel me emrin Afk perpara se te perdoresh kete komande");
+                return;
+            }
+           // event.getGuild().getController().moveVoiceMember(member,channel).complete();
+            event.getGuild().moveVoiceMember(member,channel).complete();
 
         }else if(message.matches(regexForTroll) && !(event.getAuthor().getId().equals(masterID))) {
             String caller = event.getMember().getAsMention();

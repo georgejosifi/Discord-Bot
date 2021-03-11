@@ -1,9 +1,9 @@
 package events;
 
 import Dbot.Bot;
-import net.dv8tion.jda.core.events.channel.category.CategoryCreateEvent;
-import net.dv8tion.jda.core.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+
 
 public class InviteCommandListener extends ListenerAdapter {
     public InviteCommandListener() {
@@ -14,10 +14,11 @@ public class InviteCommandListener extends ListenerAdapter {
     public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
         String messageSent = event.getMessage().getContentRaw();
         String sender = event.getMember().getAsMention();
-        String link = event.getChannel().createInvite().setMaxAge(3600).complete().getURL();
+
 
         if(messageSent.equals("!invite")) {
-            event.getChannel().sendMessage("Hey " + sender + " ja ku e ke  invite linkun" + link ).queue();
+            String link = event.getChannel().createInvite().setMaxAge(3600).complete().getUrl();
+            event.getChannel().sendMessage("Hey " + sender + " ja ku e ke  invite linkun " + link ).queue();
         }
     }
 }

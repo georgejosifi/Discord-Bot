@@ -4,4 +4,4 @@
 target/
 src/assembly/
 .idea/jarRepositories.xml
-
+.idea/uiDesigner.xml
