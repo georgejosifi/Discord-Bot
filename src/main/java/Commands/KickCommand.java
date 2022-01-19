@@ -1,4 +1,4 @@
-package events;
+package Commands;
 
 import Dbot.Bot;
 import net.dv8tion.jda.api.Permission;
@@ -8,21 +8,20 @@ import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 
-public class KickEventListener extends ListenerAdapter {
+public class KickCommand implements Command {
 
-    public KickEventListener() {
+    public KickCommand() {
         Bot.commands.put("!kick","Kick nje Member nga serveri");
     }
 
 
 
-    @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    public void run(GuildMessageReceivedEvent event) {
         String message = event.getMessage().getContentRaw();
         String regex = "!kick \\w(.){0,20}";
         String vRegex = "!vkick \\w(.){0,20}";
         String regexForTroll = "!kick.*";
-        String masterID = "285896194436104192";
+        String masterID = System.getenv("DeadshotId");
 
 
         if(message.equals("!kick") && event.getAuthor().getId().equals(masterID)) {
@@ -41,7 +40,8 @@ public class KickEventListener extends ListenerAdapter {
              }
 
              event.getGuild().kick(memberToKick).complete();
-             event.getChannel().sendMessage(effectiveName + " u be kick nga serveri").queue();
+
+             Bot.sendInformationToChannel(event.getChannel(),effectiveName + " u be kick nga serveri");
 
 
         }else if(message.matches(vRegex) && event.getMember().hasPermission(Permission.VOICE_MOVE_OTHERS)) {

@@ -1,10 +1,9 @@
-package events;
+package Commands;
 
 import Dbot.Bot;
 import Utilities.Poll;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
-import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
@@ -13,15 +12,14 @@ import org.jetbrains.annotations.NotNull;
 import java.awt.*;
 import java.util.HashMap;
 
-public class VoteListener extends ListenerAdapter {
+public class VoteCommand implements Command {
     public static HashMap<Guild, Poll> guildPollHashMap = new HashMap<>();
 
-    public VoteListener() {
+    public VoteCommand() {
         Bot.commands.put("!vote", "Krijo nje proces Votimi!");
     }
 
-    @Override
-    public void onGuildMessageReceived(@NotNull GuildMessageReceivedEvent event) {
+    public void run(GuildMessageReceivedEvent event) {
         String message = event.getMessage().getContentRaw();
         String createPollRegex = "!vote create (\\w[\\w\\s]*-)+\\w[\\w\\s]*";
         String voteRegex = "!vote v \\d";

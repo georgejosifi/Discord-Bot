@@ -1,17 +1,17 @@
-package events;
+package Commands;
 
 import Dbot.Bot;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 
-public class InviteCommandListener extends ListenerAdapter {
-    public InviteCommandListener() {
+public class InviteCommand implements Command {
+    public InviteCommand() {
         Bot.commands.put("!invite", "Krijo nje invite Link qe zgjat 1 ore");
     }
 
-    @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+
+    public void run(GuildMessageReceivedEvent event) {
         String messageSent = event.getMessage().getContentRaw();
         String sender = event.getMember().getAsMention();
 

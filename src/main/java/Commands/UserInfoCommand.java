@@ -1,4 +1,4 @@
-package events;
+package Commands;
 
 import Dbot.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -6,21 +6,17 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-
-import javax.xml.crypto.Data;
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
-public class UserInfoEmbedCommand extends ListenerAdapter {
+public class UserInfoCommand implements Command {
 
-    public UserInfoEmbedCommand() {
+    public UserInfoCommand() {
         Bot.commands.put("!user", "Shiko info rreth nje Member");
     }
 
-    @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+
+    public void run(GuildMessageReceivedEvent event) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         String regex = "!user \\w(.){0,20}";
 
@@ -28,9 +24,7 @@ public class UserInfoEmbedCommand extends ListenerAdapter {
         String  message =  event.getMessage().getContentRaw();
 
         if(message.equals("!user")) {
-
-            event.getChannel().sendMessage("Per te krijuar nje embed duhet te japesh usernamin, provo !user username").queue();
-
+            Bot.sendInstructionToChannel(event.getChannel(),"Per te krijuar nje embed duhet te japesh usernamin, provo !user username");
         }else if(message.matches(regex)){
 
             String effectiveName = message.substring(message.indexOf(" ") + 1);

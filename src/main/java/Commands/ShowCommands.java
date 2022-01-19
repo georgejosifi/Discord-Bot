@@ -1,4 +1,4 @@
-package events;
+package Commands;
 
 import Dbot.Bot;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -6,13 +6,21 @@ import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
-
 import java.awt.*;
 
-public class ShowCommandsListener extends ListenerAdapter {
+public class ShowCommands implements Command {
 
-    @Override
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+
+    public void run(GuildMessageReceivedEvent event) {
+        if(Bot.commands.isEmpty()) {
+            Bot.commands.put("!user","Shiko info rreth nje Member");
+            Bot.commands.put("!invite","Krijo nje invite Link qe zgjat 1 ore");
+            Bot.commands.put("!vote","Krijo nje proces Votimi");
+            Bot.commands.put("!spam","Spam nje noob");
+            Bot.commands.put("!mute","Mute nje noob");
+            Bot.commands.put("!unmute","Unmute nje Member");
+            Bot.commands.put("!kick","Kick nje Member nga serveri");
+        }
         String message = event.getMessage().getContentRaw();
         User user = event.getMember().getUser();
 

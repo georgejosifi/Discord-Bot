@@ -1,8 +1,7 @@
 package Utilities;
 
+import Commands.VoteCommand;
 import Dbot.Bot;
-import com.iwebpp.crypto.TweetNaclFast;
-import events.VoteListener;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -25,7 +24,7 @@ public class Poll {
 
 
     public void createPoll(String [] data, GuildMessageReceivedEvent event) {
-        if(VoteListener.guildPollHashMap.containsKey(event.getGuild())) {
+        if(VoteCommand.guildPollHashMap.containsKey(event.getGuild())) {
             Bot.sendWarningToChannel(event.getChannel(), "Nuk mund te krijosh nje tjeter Votim derisa aktuali te mbyllet.");
             return;
         }
@@ -52,7 +51,7 @@ public class Poll {
         this.answers = new ArrayList<>(Arrays.asList(data).subList(1,data.length));
         this.author = event.getMember();
 
-        VoteListener.guildPollHashMap.put(event.getGuild(),this);
+        VoteCommand.guildPollHashMap.put(event.getGuild(),this);
 
     }
 
@@ -68,7 +67,7 @@ public class Poll {
         }
 
         this.votes.put(event.getMember(),vote);
-        VoteListener.guildPollHashMap.put(event.getGuild(),this);
+        VoteCommand.guildPollHashMap.put(event.getGuild(),this);
         event.getMessage().delete().queue();
 
     }
@@ -90,8 +89,8 @@ public class Poll {
     }
 
     public void closePoll(GuildMessageReceivedEvent event) {
-        VoteListener.guildPollHashMap.remove(event.getGuild());
-        event.getChannel().sendMessage("Votimi u mbyll.").queue();
+        VoteCommand.guildPollHashMap.remove(event.getGuild());
+        Bot.sendInformationToChannel(event.getChannel(),"Votimi u mbyll.");
     }
 
     private MessageEmbed createPollEmbed(String authorName, String question, String answer) {

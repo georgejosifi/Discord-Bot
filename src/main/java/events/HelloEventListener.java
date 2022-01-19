@@ -1,6 +1,7 @@
 package events;
 
 
+import Utilities.RoleFactory;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
@@ -14,7 +15,7 @@ public class HelloEventListener extends ListenerAdapter {
         Member member = event.getMember();
         String userName = member.getAsMention();
         String  serverName = event.getGuild().getName();
-        Role defRole = event.getGuild().getRolesByName("default role",true).get(0);
+        Role defRole = RoleFactory.createDefaultRole(event.getGuild());
         event.getGuild().addRoleToMember(member,defRole).complete();
         event.getGuild().getDefaultChannel().sendMessage("Mireseerdhe ne " + serverName + " " + userName + " une jam Vis Boti").queue();
     }
@@ -25,7 +26,7 @@ public class HelloEventListener extends ListenerAdapter {
 
         if(messageSent.toLowerCase().contains("elvis")){
             String nickName = event.getMember().getEffectiveName();
-            String elvisId = "696729111950917674";
+            String elvisId = System.getenv("ElvisId");
 
             if(event.getMember().getId().equalsIgnoreCase(elvisId)) {
                 event.getChannel().sendMessage("Po " + nickName + " une jam nje Bot si ti, une jam ti. Vecse ti je i uploduar ne nje trup njerezor ndersa un ne Discord!").queue();
