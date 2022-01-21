@@ -11,11 +11,6 @@ import java.time.format.DateTimeFormatter;
 
 public class UserInfoCommand implements Command {
 
-    public UserInfoCommand() {
-        Bot.commands.put("!user", "Shiko info rreth nje Member");
-    }
-
-
     public void run(GuildMessageReceivedEvent event) {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         String regex = "!user \\w(.){0,20}";

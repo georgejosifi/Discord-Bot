@@ -6,9 +6,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 
 public class InviteCommand implements Command {
-    public InviteCommand() {
-        Bot.commands.put("!invite", "Krijo nje invite Link qe zgjat 1 ore");
-    }
+
 
 
     public void run(GuildMessageReceivedEvent event) {

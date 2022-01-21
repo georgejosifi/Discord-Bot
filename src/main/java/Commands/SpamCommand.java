@@ -11,10 +11,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class SpamCommand implements Command {
 
-    public SpamCommand() {
-        Bot.commands.put("!spam", "Spam nje noob");
-    }
-
 
     public void run(GuildMessageReceivedEvent event) {
         String message = event.getMessage().getContentRaw();

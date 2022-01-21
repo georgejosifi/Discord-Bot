@@ -10,10 +10,6 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
 public class KickCommand implements Command {
 
-    public KickCommand() {
-        Bot.commands.put("!kick","Kick nje Member nga serveri");
-    }
-
 
 
     public void run(GuildMessageReceivedEvent event) {

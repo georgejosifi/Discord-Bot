@@ -15,9 +15,6 @@ import java.util.HashMap;
 public class VoteCommand implements Command {
     public static HashMap<Guild, Poll> guildPollHashMap = new HashMap<>();
 
-    public VoteCommand() {
-        Bot.commands.put("!vote", "Krijo nje proces Votimi!");
-    }
 
     public void run(GuildMessageReceivedEvent event) {
         String message = event.getMessage().getContentRaw();
