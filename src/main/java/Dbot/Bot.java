@@ -24,7 +24,7 @@ public  class Bot {
 
     public static void main(String[] args) throws LoginException {
         GatewayIntent [] intents = {GatewayIntent.DIRECT_MESSAGES,GatewayIntent.GUILD_MESSAGES,GatewayIntent.GUILD_MESSAGES,GatewayIntent.GUILD_MEMBERS,GatewayIntent.GUILD_PRESENCES,GatewayIntent.GUILD_VOICE_STATES};
-        JDA jda = JDABuilder.createDefault("NzY5NjE0NjY3NTUwMTYyOTg0.X5Rlgw.IpW2Yhp3odO_WNxgphaso_qtoUI",Arrays.asList(intents)).setChunkingFilter(ChunkingFilter.ALL).build();
+        JDA jda = JDABuilder.createDefault(System.getenv("BotToken"),Arrays.asList(intents)).setChunkingFilter(ChunkingFilter.ALL).build();
 
 
         jda.addEventListener(new HelloEventListener());
