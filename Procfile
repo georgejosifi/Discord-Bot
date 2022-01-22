@@ -1,0 +1,1 @@
+worker: java -jar build/libs/Discord-Bot-1.0-SNAPSHOT.jar
