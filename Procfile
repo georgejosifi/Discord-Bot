@@ -1,1 +1,1 @@
-worker: java Dbot/Bot.java
+worker: java -jar target/Discord-Bot-1.0-SNAPSHOT.jar
