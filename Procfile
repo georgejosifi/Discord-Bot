@@ -1,1 +1,0 @@
-worker: java src/main/java/Dbot/Bot.java
